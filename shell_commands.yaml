@@ -1,0 +1,1 @@
+bestin_auth: 'curl -X POST -H Authorization:[!PLEASE INPUT YOUR UUID!] https://center.hdc-smart.com/v3/auth/login | jq -r ''."access-token"'' > /config/bestin_token'

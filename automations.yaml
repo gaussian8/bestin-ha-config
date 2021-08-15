@@ -1,0 +1,10 @@
+- id: '1628758459344'
+  alias: 베스틴 인증토큰 갱신
+  description: ''
+  trigger:
+  - platform: time_pattern
+    minutes: /55
+  condition: []
+  action:
+    service: shell_command.bestin_auth
+  mode: single

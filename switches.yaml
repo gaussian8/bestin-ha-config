@@ -1,0 +1,56 @@
+- platform: template
+  switches:
+    gas_valve:
+      friendly_name: "가스 밸브"
+      icon_template: mdi:valve
+      value_template: "{{ false if states.sensor.gas_valve.state == 'close' else true }}"
+      turn_on:
+        service: rest_command.gas_valve_close
+      turn_off:
+        service: rest_command.gas_valve_close
+    kitchen_power1:
+      friendly_name: "전자레인지"
+      icon_template: mdi:microwave
+      value_template: "{{ false if states.sensor.kitchen_power.state.split('\n')[0].split('/')[1] == 'off' else true }}"
+      turn_on:
+        service: rest_command.power_control_room
+        data:
+          room_id: '2'
+          unit: 'switch1'
+          state: 'on'
+      turn_off:
+        service: rest_command.power_control_room
+        data:
+          room_id: '2'
+          unit: 'switch1'
+          state: 'off'
+    kitchen_power2:
+      friendly_name: "오븐"
+      icon_template: mdi:stove
+      value_template: "{{ false if states.sensor.kitchen_power.state.split('\n')[1].split('/')[1] == 'off' else true }}"
+      turn_on:
+        service: rest_command.power_control_room
+        data:
+          room_id: '2'
+          unit: 'switch2'
+          state: 'on'
+      turn_off:
+        service: rest_command.power_control_room
+        data:
+          room_id: '2'
+          unit: 'switch2'
+          state: 'off'
+    thermostat_livingroom:
+      value_template: "{{ false if states.sensor.room_temperature.state.split('\n')[0].split('/')[0] == 'off' else true }}"
+      turn_on:
+        service: rest_command.thermostat_control_room
+        data:
+          unit: 'room1'
+          state: 'on'
+          target: "{{ state_attr('climate.thermostat_livingroom', 'temperature') }}"
+      turn_off:
+        service: rest_command.thermostat_control_room
+        data:
+          unit: 'room1'
+          state: 'off'
+          target: "{{ state_attr('climate.thermostat_livingroom', 'temperature') }}"

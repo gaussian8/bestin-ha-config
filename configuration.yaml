@@ -1,0 +1,32 @@
+homeassistant:
+#fan
+fan:
+  - platform: template
+    fans:
+      ventil_home:
+        friendly_name: "전열교환기"
+        value_template: "{{ 'off' if states.sensor.ventil_home.state == 'off' else 'on' }}"
+        preset_mode_template: "{{ states.sensor.ventil_home.state }}"
+        preset_modes:
+          - 'low'
+          - 'mid'
+          - 'high'
+        turn_on:
+          service: rest_command.fan_control_ventil
+          data:
+            state: 'high'
+        turn_off:
+          service: rest_command.fan_control_ventil
+          data:
+            state: 'off'
+        set_preset_mode:
+          service: rest_command.fan_control_ventil
+          data:
+            state: "{{ preset_mode }}"
+
+sensor: !include sensors.yaml
+rest_command: !include rest_commands.yaml
+shell_command: !include shell_commands.yaml
+automation: !include automations.yaml
+light: !include lights.yaml
+switch: !include switches.yaml

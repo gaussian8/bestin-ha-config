@@ -1,0 +1,42 @@
+light_control_room:
+  url: https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/light/{{room_id}}/apply
+  method: PUT
+  headers:
+    access-token: '{{ states.sensor.bestin_token.state }}'
+  payload: '{"unit":"{{ unit }}","state":"{{ state }}"}'
+  content_type:  'application/json'
+light_control_livingroom:
+  url: https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/livinglight/1/apply
+  method: PUT
+  headers:
+    access-token: '{{ states.sensor.bestin_token.state }}'
+  payload: '{"unit":"{{ unit }}","state":"{{ state }}"}'
+  content_type:  'application/json'
+fan_control_ventil:
+  url: https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/ventil/1/apply
+  method: PUT
+  headers:
+    access-token: '{{ states.sensor.bestin_token.state }}'
+  payload: '{"unit":"ventil","state":"{{ state }}"}'
+  content_type:  'application/json'
+gas_valve_close:
+  url: https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/gas/1/apply
+  method: PUT
+  headers:
+    access-token: '{{ states.sensor.bestin_token.state }}'
+  payload: '{"unit":"gas1","state":"close"}'
+  content_type:  'application/json'
+power_control_room:
+  url: https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/electric/{{room_id}}/apply
+  method: PUT
+  headers:
+    access-token: '{{ states.sensor.bestin_token.state }}'
+  payload: '{"unit":"{{ unit }}","state":"set/{{ state }}"}'
+  content_type:  'application/json'
+thermostat_control_room:
+  url: https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/thermostat/1/apply
+  method: PUT
+  headers:
+    access-token: '{{ states.sensor.bestin_token.state }}'
+  payload: '{"unit":"{{ unit }}","state":"{{ state }}/{{ target }}"}'
+  content_type:  'application/json'

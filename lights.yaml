@@ -1,0 +1,88 @@
+- platform: template
+  lights:
+    light_livingroom1:
+      friendly_name: "거실 조명1"
+      value_template: "{{ states.sensor.lights_livingroom.state.split('\n')[0] }}"
+      turn_on:
+        service: rest_command.light_control_livingroom
+        data:
+          unit: 'switch1'
+          state: 'on'
+      turn_off:
+        service: rest_command.light_control_livingroom
+        data:
+          unit: 'switch1'
+          state: 'off'
+    light_livingroom2:
+      friendly_name: "거실 조명2"
+      value_template: "{{ states.sensor.lights_livingroom.state.split('\n')[1] }}"
+      turn_on:
+        service: rest_command.light_control_livingroom
+        data:
+          unit: 'switch2'
+          state: 'on'
+      turn_off:
+        service: rest_command.light_control_livingroom
+        data:
+          unit: 'switch2'
+          state: 'off'
+    light_kitchen1:
+      friendly_name: "부엌 조명1"
+      value_template: "{{ states.sensor.lights_room1.state.split('\n')[0] }}"
+      turn_on:
+        service: rest_command.light_control_room
+        data:
+          room_id: '1'
+          unit: 'switch1'
+          state: 'on'
+      turn_off:
+        service: rest_command.light_control_room
+        data:
+          room_id: '1'
+          unit: 'switch1'
+          state: 'off'
+    light_kitchen2:
+      friendly_name: "부엌 조명2"
+      value_template: "{{ states.sensor.lights_room1.state.split('\n')[1] }}"
+      turn_on:
+        service: rest_command.light_control_room
+        data:
+          room_id: '1'
+          unit: 'switch2'
+          state: 'on'
+      turn_off:
+        service: rest_command.light_control_room
+        data:
+          room_id: '1'
+          unit: 'switch2'
+          state: 'off'
+    light_kitchen3:
+      friendly_name: "부엌 조명3"
+      value_template: "{{ states.sensor.lights_room1.state.split('\n')[2] }}"
+      turn_on:
+        service: rest_command.light_control_room
+        data:
+          room_id: '1'
+          unit: 'switch3'
+          state: 'on'
+      turn_off:
+        service: rest_command.light_control_room
+        data:
+          room_id: '1'
+          unit: 'switch3'
+          state: 'off'
+    light_room2:
+      friendly_name: "안방 조명"
+      value_template: "{{ states.sensor.lights_room2.state }}"
+      turn_on:
+        service: rest_command.light_control_room
+        data:
+          room_id: '2'
+          unit: 'switch1'
+          state: 'on'
+      turn_off:
+        service: rest_command.light_control_room
+        data:
+          room_id: '2'
+          unit: 'switch1'
+          state: 'off'

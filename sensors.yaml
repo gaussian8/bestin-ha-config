@@ -1,0 +1,153 @@
+- platform: template
+  sensors:
+    temperature_livingroom:
+      friendly_name: "거실 온도"
+      value_template: "{{ states.sensor.room_temperature.state.split('\n')[0].split('/')[2] }}"
+      unit_of_measurement: "°C"
+      icon_template: mdi:thermometer
+    temperature_room2:
+      friendly_name: "안방 온도"
+      value_template: "{{ states.sensor.room_temperature.state.split('\n')[1].split('/')[2] }}"
+      unit_of_measurement: "°C"
+      icon_template: mdi:thermometer
+    usage_electric:
+      friendly_name: "전기 총사용량"
+      value_template: "{{ states.sensor.energy_usage_myhome.state[1:-1].split(',')[0] }}"
+      unit_of_measurement: "kWh"
+      icon_template: mdi:flash
+    usage_water:
+      friendly_name: "수도 총사용량"
+      value_template: "{{ states.sensor.energy_usage_myhome.state[1:-1].split(',')[1] }}"
+      unit_of_measurement: "㎥"
+      icon_template: mdi:water
+    usage_gas:
+      friendly_name: "가스 총사용량"
+      value_template: "{{ states.sensor.energy_usage_myhome.state[1:-1].split(',')[2] }}"
+      unit_of_measurement: "㎥"
+      icon_template: mdi:fire
+    usage_hot_water:
+      friendly_name: "온수 총사용량"
+      value_template: "{{ states.sensor.energy_usage_myhome.state[1:-1].split(',')[3] }}"
+      unit_of_measurement: "㎥"
+      icon_template: mdi:hot-tub
+    usage_heat:
+      friendly_name: "난방 총사용량"
+      value_template: "{{ states.sensor.energy_usage_myhome.state[1:-1].split(',')[4] }}"
+      unit_of_measurement: "㎥"
+      icon_template: mdi:radiator
+    usage_electric_today:
+      friendly_name: "일일 전기 사용량"
+      value_template: "{{ states.sensor.energy_usage_today.state[1:-1].split(',')[0] }}"
+      unit_of_measurement: "kWh"
+      icon_template: mdi:flash
+    usage_water_today:
+      friendly_name: "일일 수도 사용량"
+      value_template: "{{ states.sensor.energy_usage_today.state[1:-1].split(',')[1] }}"
+      unit_of_measurement: "㎥"
+      icon_template: mdi:water
+    usage_gas_today:
+      friendly_name: "일일 가스 사용량"
+      value_template: "{{ states.sensor.energy_usage_today.state[1:-1].split(',')[2] }}"
+      unit_of_measurement: "㎥"
+      icon_template: mdi:fire
+    usage_hot_water_today:
+      friendly_name: "일일 온수 사용량"
+      value_template: "{{ states.sensor.energy_usage_today.state[1:-1].split(',')[3] }}"
+      unit_of_measurement: "㎥"
+      icon_template: mdi:hot-tub
+    usage_heat_today:
+      friendly_name: "일일 난방 사용량"
+      value_template: "{{ states.sensor.energy_usage_today.state[1:-1].split(',')[4] }}"
+      unit_of_measurement: "㎥"
+      icon_template: mdi:radiator
+    usage_electric_avg:
+      friendly_name: "동평형 평균 전기 사용량"
+      value_template: "{{ states.sensor.energy_usage_avg.state[1:-1].split(',')[0] }}"
+      unit_of_measurement: "kWh"
+      icon_template: mdi:flash
+    usage_water_avg:
+      friendly_name: "동평형 평균 수도 사용량"
+      value_template: "{{ states.sensor.energy_usage_avg.state[1:-1].split(',')[1] }}"
+      unit_of_measurement: "㎥"
+      icon_template: mdi:water
+    usage_gas_avg:
+      friendly_name: "동평형 평균 가스 사용량"
+      value_template: "{{ states.sensor.energy_usage_avg.state[1:-1].split(',')[2] }}"
+      unit_of_measurement: "㎥"
+      icon_template: mdi:fire
+    usage_hot_water_avg:
+      friendly_name: "동평형 평균 온수 사용량"
+      value_template: "{{ states.sensor.energy_usage_avg.state[1:-1].split(',')[3] }}"
+      unit_of_measurement: "㎥"
+      icon_template: mdi:hot-tub
+    usage_heat_avg:
+      friendly_name: "동평형 평균 난방 사용량"
+      value_template: "{{ states.sensor.energy_usage_avg.state[1:-1].split(',')[4] }}"
+      unit_of_measurement: "㎥"
+      icon_template: mdi:radiator
+- platform: file
+  name: bestin_token
+  file_path: /config/bestin_token
+- platform: file
+  name: energy_usage_myhome
+  file_path: /config/energy_usage.json
+  value_template: '{{ value_json.ENERGY_CNT01, value_json.ENERGY_CNT02, value_json.ENERGY_CNT03, value_json.ENERGY_CNT04, value_json.ENERGY_CNT05 }}'
+- platform: file
+  name: energy_usage_today
+  file_path: /config/energy_usage.json
+  value_template: '{{ value_json.ENERGY_USE01, value_json.ENERGY_USE02, value_json.ENERGY_USE03, value_json.ENERGY_USE04, value_json.ENERGY_USE05 }}'
+- platform: file
+  name: energy_usage_avg
+  file_path: /config/energy_usage.json
+  value_template: '{{ value_json.PYE_AVG01, value_json.PYE_AVG02, value_json.PYE_AVG03, value_json.PYE_AVG04, value_json.PYE_AVG05 }}'
+
+# 방온도 및 보일러 상태 조회
+- platform: command_line
+  name: room_temperature
+  scan_interval: 60
+  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/thermostat/1/apply | jq -r '.units[].state'"
+# 조명 상태 조회
+- platform: command_line
+  name: lights_room1
+  scan_interval: 60
+  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/light/1/apply | jq -r '.units[].state'"
+- platform: command_line
+  name: lights_room2
+  scan_interval: 60
+  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/light/2/apply | jq -r '.units[].state'"
+- platform: command_line
+  name: lights_room3
+  scan_interval: 60
+  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/light/3/apply | jq -r '.units[].state'"
+- platform: command_line
+  name: lights_room4
+  scan_interval: 60
+  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/light/4/apply | jq -r '.units[].state'"
+- platform: command_line
+  name: lights_room5
+  scan_interval: 60
+  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/light/5/apply | jq -r '.units[].state'"
+- platform: command_line
+  name: lights_livingroom
+  scan_interval: 60
+  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/livinglight/1/apply | jq -r '.units[].state'"
+# 전열교환기 상태 조회
+- platform: command_line
+  name: ventil_home
+  scan_interval: 300
+  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/ventil/1/apply | jq -r '.units[].state'"
+# 에너지 사용량 조회
+- platform: command_line
+  name: energy_usage_get
+  scan_interval: 300
+  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/meter/daily/energies/{{ now().strftime('%Y/%m/%d') }} > energy_usage.json"
+# 가스 밸브 상태 조회
+- platform: command_line
+  name: gas_valve
+  scan_interval: 300
+  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/gas/1/apply | jq -r '.units[].state'"
+# 주방 콘센트 상태 조회
+- platform: command_line
+  name: kitchen_power
+  scan_interval: 60
+  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/electric/2/apply | jq -r '.units[].state'"
