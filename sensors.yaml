@@ -105,49 +105,49 @@
 - platform: command_line
   name: room_temperature
   scan_interval: 60
-  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/thermostat/1/apply | jq -r '.units[].state'"
+  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} --user-agent 'Mozilla/5.0' https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/thermostat/1/apply | jq -r '.units[].state'"
 # 조명 상태 조회
 - platform: command_line
   name: lights_room1
   scan_interval: 60
-  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/light/1/apply | jq -r '.units[].state'"
+  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} --user-agent 'Mozilla/5.0' https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/light/1/apply | jq -r '.units[].state'"
 - platform: command_line
   name: lights_room2
   scan_interval: 60
-  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/light/2/apply | jq -r '.units[].state'"
+  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} --user-agent 'Mozilla/5.0' https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/light/2/apply | jq -r '.units[].state'"
 - platform: command_line
   name: lights_room3
   scan_interval: 60
-  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/light/3/apply | jq -r '.units[].state'"
+  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} --user-agent 'Mozilla/5.0' https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/light/3/apply | jq -r '.units[].state'"
 - platform: command_line
   name: lights_room4
   scan_interval: 60
-  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/light/4/apply | jq -r '.units[].state'"
+  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} --user-agent 'Mozilla/5.0' https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/light/4/apply | jq -r '.units[].state'"
 - platform: command_line
   name: lights_room5
   scan_interval: 60
-  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/light/5/apply | jq -r '.units[].state'"
+  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} --user-agent 'Mozilla/5.0' https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/light/5/apply | jq -r '.units[].state'"
 - platform: command_line
   name: lights_livingroom
   scan_interval: 60
-  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/livinglight/1/apply | jq -r '.units[].state'"
+  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} --user-agent 'Mozilla/5.0' https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/livinglight/1/apply | jq -r '.units[].state'"
 # 전열교환기 상태 조회
 - platform: command_line
   name: ventil_home
   scan_interval: 300
-  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/ventil/1/apply | jq -r '.units[].state'"
+  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} --user-agent 'Mozilla/5.0' https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/ventil/1/apply | jq -r '.units[].state'"
 # 에너지 사용량 조회
 - platform: command_line
   name: energy_usage_get
   scan_interval: 300
-  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/meter/daily/energies/{{ now().strftime('%Y/%m/%d') }} > energy_usage.json"
+  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} --user-agent 'Mozilla/5.0' https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/meter/daily/energies/{{ now().strftime('%Y/%m/%d') }} > energy_usage.json"
 # 가스 밸브 상태 조회
 - platform: command_line
   name: gas_valve
   scan_interval: 300
-  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/gas/1/apply | jq -r '.units[].state'"
+  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} --user-agent 'Mozilla/5.0' https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/gas/1/apply | jq -r '.units[].state'"
 # 주방 콘센트 상태 조회
 - platform: command_line
   name: kitchen_power
   scan_interval: 60
-  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/electric/2/apply | jq -r '.units[].state'"
+  command: "curl -X GET -H access-token:{{ states.sensor.bestin_token.state }} --user-agent 'Mozilla/5.0' https://[!본인 거주 아파트의 CONTROL_URL]/v2/api/features/electric/2/apply | jq -r '.units[].state'"
